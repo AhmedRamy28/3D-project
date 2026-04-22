@@ -15,6 +15,13 @@ run/main_scene="uid://mgp02mkor0at"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
+[display]
+
+window/size/viewport_width=1980
+window/size/viewport_height=1080
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+
 [input]
 
 jump={

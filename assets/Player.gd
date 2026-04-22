@@ -2,10 +2,11 @@ extends CharacterBody3D
 
 @export var SPEED = 5.0
 @export var JUMP_VELOCITY = 4.5
+@export var AIR_JUMP = 3.5
 
 #Multiple jumps
 @export var MAX_JUMPS = 1  #jumps in air
-var jump_count = 0
+var jump_count = 0.0
 
 @export var Sensitivity = 0.03
 @onready var head = $Head
@@ -19,8 +20,12 @@ var Shake_Time = 0.0
 #Field of view Variables
 @export var Current_FOV = 75.0
 const FOV_Change = 1.5
+ 
 
-
+#Coyote Variables
+@export var coyote_time = .5
+var was_on_floor: bool = false
+var can_coyote_jump: bool = false
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -55,19 +60,33 @@ func headShake(time):
 
 
 func _physics_process(delta: float) -> void:
+	was_on_floor = is_on_floor()
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		
+		#coyote
+		if was_on_floor and velocity.y >= 0:
+			can_coyote_jump = true
+			get_tree().create_timer(coyote_time).timeout.connect(func(): can_coyote_jump = false)
+
 
 	var jump = Input.is_action_just_pressed("jump")
 	var SPRINT = Input.is_action_pressed("Sprint")
 	
+	
 	if jump:
-		if  is_on_floor() or jump_count < MAX_JUMPS:
+		if  is_on_floor() or can_coyote_jump:
 			velocity.y = JUMP_VELOCITY
+			jump_count += 1
+			can_coyote_jump = false
+		
+		elif not is_on_floor() and jump_count < MAX_JUMPS:
+			velocity.y = AIR_JUMP
 			jump_count += 1
 	if  is_on_floor():
 		jump_count = 0
+ 		
 	
 	if SPRINT:
 		SPEED = 9.0
@@ -83,12 +102,12 @@ func _physics_process(delta: float) -> void:
 			velocity.z = direction.z * SPEED
 		else:
 			#adds inertia after leaving the controls
-			var inertia_percentage = delta * 7.0
+			var inertia_percentage = delta * 10
 			velocity.x = lerp(velocity.x , direction.x * SPEED, inertia_percentage)
 			velocity.z = lerp(velocity.z , direction.z * SPEED, inertia_percentage)
 	else:
 		#adds inertia after leaving the controls
-		var air_inertia_percentage = 3.0 # keep in mind delta is 0.05 
+		var air_inertia_percentage = 7	 # keep in mind delta is 0.05 
 		velocity.x = lerp(velocity.x , direction.x * SPEED, delta * air_inertia_percentage)
 		velocity.z = lerp(velocity.z , direction.z * SPEED, delta * air_inertia_percentage)
 	
@@ -98,7 +117,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	#controls the FOV each tick
-	var Area_Covered_Percentage = delta * 8.0
+	var Area_Covered_Percentage = delta * 6.0
 	var velocity_clamped = clamp(velocity.length(), 0.5, SPEED* 2 )
 	var Variable_FOV = Current_FOV + FOV_Change * velocity_clamped
 	camera.fov = lerp(camera.fov , Variable_FOV, Area_Covered_Percentage)
