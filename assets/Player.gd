@@ -36,7 +36,7 @@ var is_wall_running : bool = false
 
 # --- Jump Buffering Variables --
 @export var jump_buffer_time: float = 0.1
-var jump_pressed = false
+var jump_pressed = false 
 var jump_buffer_timer : Timer
 
 var paused : bool = false

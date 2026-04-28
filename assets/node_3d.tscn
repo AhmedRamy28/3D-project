@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://mgp02mkor0at"]
 
 [ext_resource type="Script" uid="uid://b0gd8hrqpvtbb" path="res://assets/Player.gd" id="1_a202f"]
+[ext_resource type="PackedScene" uid="uid://e7505umphu22" path="res://Levels/A-Level.tscn" id="2_j62gk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -99,3 +100,6 @@ operation = 2
 radius = 5.0
 height = 17.0
 sides = 16
+
+[node name="Map" parent="." unique_id=523325684 instance=ExtResource("2_j62gk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6, -35.8)
