@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://da6b47qxjeqp5"]
+
+[ext_resource type="PackedScene" uid="uid://emivb5kk1vfw" path="res://Cover_for_buffs.glb" id="1_l57do"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_l57do"]
+radius = 1.3000001
+
+[node name="Buffs" type="Node3D" unique_id=468598081]
+
+[node name="Area3D" type="Area3D" parent="." unique_id=307151338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1, 0)
+
+[node name="Cover_for_buffs" parent="Area3D" unique_id=204358066 instance=ExtResource("1_l57do")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=987996410]
+shape = SubResource("SphereShape3D_l57do")

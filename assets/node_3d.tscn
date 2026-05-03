@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b0gd8hrqpvtbb" path="res://assets/Player.gd" id="1_a202f"]
 [ext_resource type="PackedScene" uid="uid://e7505umphu22" path="res://Levels/A-Level.tscn" id="2_j62gk"]
+[ext_resource type="PackedScene" uid="uid://emivb5kk1vfw" path="res://Cover_for_buffs.glb" id="3_qjd3p"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -29,6 +30,9 @@ albedo_color = Color(0.6238806, 0.40829515, 0.17868385, 1)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7hr0d"]
 points = PackedVector3Array(-0.12520654, -0.532801, -0.4805069, 0.022783129, 0.4760704, 0.49888408, 0.16971254, 0.5591441, 0.46417162, 0.23105091, -0.8035912, 0.32045516, 0.40741014, 0.651043, -0.24352328, -0.4827893, 0.59484255, 0.082213186, -0.3628679, -0.68231165, 0.2896967, 0.46904355, -0.65452886, -0.06627126, -0.12744367, 0.8427015, -0.33810276, -0.39343542, -0.6839421, -0.24471663, 0.43825462, 0.62330925, 0.20084947, 0.0841477, 0.977454, 0.11479468, -0.06820232, -0.9764576, -0.12927033, 0.20054972, -0.56312895, -0.4514544, -0.18552664, 0.59545326, -0.4534751, -0.27336287, 0.59226835, 0.40775412, -0.0069364863, -0.47682306, 0.49966025, 0.37582088, -0.5886136, 0.31695515, 0.111579016, 0.5630594, -0.48117727, -0.41725034, 0.5278656, -0.27049688, -0.48454633, -0.59697217, -0.06650971, -0.27974695, 0.90856135, 0.05333608, -0.25019687, -0.8807117, 0.20531891, 0.263647, -0.90277094, -0.1273943, 0.29336792, 0.8715263, -0.15719566, 0.3734115, -0.5263189, -0.32824618, 0.4996626, 0.47664148, -0.0068885577, 0.053105574, 0.8750009, 0.32470253, -0.15454252, -0.5908538, 0.4658794, -0.09727988, -0.7823577, -0.39818847, -0.3876489, -0.49817133, 0.31564978, -0.30067965, -0.58799505, -0.38890144)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dx1ay"]
+radius = 1.3000001
 
 [node name="Game" type="Node3D" unique_id=635932227]
 
@@ -103,3 +107,13 @@ sides = 16
 
 [node name="Map" parent="." unique_id=523325684 instance=ExtResource("2_j62gk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6, -35.8)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1116796474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1, 0)
+
+[node name="Cover_for_buffs" parent="Area3D" unique_id=204358066 instance=ExtResource("3_qjd3p")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1138324050]
+shape = SubResource("SphereShape3D_dx1ay")
+
+[connection signal="body_entered" from="Area3D" to="CharacterBody3D" method="_on_area_3d_body_entered"]

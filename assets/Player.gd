@@ -174,3 +174,7 @@ func _physics_process(delta):
 	var speed_percent = clamp(velocity.length() / SPRINT_SPEED, 0.5, 2.0)
 	var target_fov = Base_FOV + (FOV_Multiplier * speed_percent)
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	jump_count = 0
